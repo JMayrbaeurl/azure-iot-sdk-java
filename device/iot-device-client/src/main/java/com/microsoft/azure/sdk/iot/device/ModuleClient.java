@@ -293,9 +293,6 @@ public class ModuleClient extends InternalClient
      */
     public MethodResult invokeMethod(String deviceId, MethodRequest methodRequest) throws ModuleClientException, IllegalArgumentException
     {
-        throw new UnsupportedOperationException("InvokeMethod is not supported currently");
-
-        /*
         if (deviceId == null || deviceId.isEmpty())
         {
             //Codes_SRS_MODULECLIENT_34_039: [If the provided deviceId is null or empty, this function shall throw an IllegalArgumentException.]
@@ -314,7 +311,7 @@ public class ModuleClient extends InternalClient
             //Codes_SRS_MODULECLIENT_34_034: [If this function encounters an exception, it shall throw a moduleClientException with that exception nested.]
             throw new ModuleClientException("Could not invoke method", e);
         }
-        */
+
     }
 
     /**
@@ -328,8 +325,6 @@ public class ModuleClient extends InternalClient
      */
     public MethodResult invokeMethod(String deviceId, String moduleId, MethodRequest methodRequest) throws ModuleClientException, IllegalArgumentException
     {
-        throw new UnsupportedOperationException("InvokeMethod is not supported currently");
-        /*
         if (deviceId == null || deviceId.isEmpty())
         {
             //Codes_SRS_MODULECLIENT_34_037: [If the provided deviceId is null or empty, this function shall throw an IllegalArgumentException.]
@@ -354,7 +349,6 @@ public class ModuleClient extends InternalClient
             //Codes_SRS_MODULECLIENT_34_036: [If this function encounters an exception, it shall throw a moduleClientException with that exception nested.]
             throw new ModuleClientException("Could not invoke method", e);
         }
-        */
     }
 
     /**
@@ -505,7 +499,7 @@ public class ModuleClient extends InternalClient
         if (protocol != IotHubClientProtocol.MQTT && protocol != IotHubClientProtocol.AMQPS
                 && protocol != IotHubClientProtocol.MQTT_WS && protocol != IotHubClientProtocol.AMQPS_WS)
         {
-            throw new UnsupportedOperationException("Only MQTT, MQTT_WS, AMQPS and AMQPS_WS are supported for ModuleClient.");
+            //throw new UnsupportedOperationException("Only MQTT, MQTT_WS, AMQPS and AMQPS_WS are supported for ModuleClient.");
         }
 
         if (config.getModuleId() == null || config.getModuleId().isEmpty())
