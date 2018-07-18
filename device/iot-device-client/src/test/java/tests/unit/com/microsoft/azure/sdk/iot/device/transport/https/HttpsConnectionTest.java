@@ -106,7 +106,7 @@ public class HttpsConnectionTest
         };
     }
 
-    // Tests_SRS_HTTPSCONNECTION_11_022: [If the URI given does not use the HTTPS protocol, the constructor shall throw an IllegalArgumentException.]
+    // Tests_SRS_HTTPSCONNECTION_11_022: [If the URI given does not use the HTTPS or HTTP protocol, the constructor shall throw an IllegalArgumentException.]
     @Test(expected = IllegalArgumentException.class)
     public void constructorRejectsNonHttpsUrl() throws IOException, TransportException
     {
@@ -115,7 +115,7 @@ public class HttpsConnectionTest
         {
             {
                 mockUrl.getProtocol();
-                result = "http";
+                result = "unix";
                 mockUrl.openConnection();
                 result = mockUrlConn;
                 mockUrlConn.getRequestMethod();

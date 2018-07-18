@@ -60,9 +60,9 @@ public class HttpsConnection
     {
         this.url = url;
 
-        // Codes_SRS_HTTPSCONNECTION_11_022: [If the URI given does not use the HTTPS protocol, the constructor shall throw an IllegalArgumentException.]
+        // Codes_SRS_HTTPSCONNECTION_11_022: [If the URI given does not use the HTTPS or HTTP protocol, the constructor shall throw an IllegalArgumentException.]
         String protocol = url.getProtocol();
-        if (!protocol.equalsIgnoreCase("HTTPS"))
+        if (!protocol.equalsIgnoreCase("HTTPS") && !protocol.equalsIgnoreCase("HTTP"))
         {
             String errMsg = String.format("Expected URL that uses protocol "
                             + "HTTPS but received one that uses "
