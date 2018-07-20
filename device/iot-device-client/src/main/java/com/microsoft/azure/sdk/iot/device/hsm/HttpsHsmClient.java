@@ -125,8 +125,15 @@ public class HttpsHsmClient
                     // Codes_SRS_HSMHTTPCLIENT_34_004: [If the response from the http call is 200, this function shall return the SignResponse built from the response body json.]
                     return SignResponse.fromJson(responseBody);
                 default:
+                    String exceptionMessage = "HttpsHsmClient received status code " + responseCode + " from provided uri.";
+                    ErrorResponse errorResponse = ErrorResponse.fromJson(responseBody);
+                    if (errorResponse != null)
+                    {
+                        exceptionMessage = exceptionMessage + " Error response message: " + errorResponse.getMessage();
+                    }
+
                     // Codes_SRS_HSMHTTPCLIENT_34_005: [If the response from the http call is not 200, this function shall throw an HsmException.]
-                    throw new HsmException("HttpsHsmClient received status code " + responseCode + " from provided uri. Error Message: " + ErrorResponse.fromJson(responseBody).getMessage());
+                    throw new HsmException(exceptionMessage);
             }
         }
         else
