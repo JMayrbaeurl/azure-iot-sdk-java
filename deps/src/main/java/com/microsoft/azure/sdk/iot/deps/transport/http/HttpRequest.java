@@ -29,14 +29,12 @@ public class HttpRequest
      * @throws IllegalArgumentException This exception thrown if the endpoint
      * given does not use the HTTPS protocol.
      */
-    public HttpRequest(URL url, HttpMethod method, byte[] body, String userAgent) throws IOException
+    public HttpRequest(URL url, HttpMethod method, byte[] body) throws IOException
     {
         // Codes_SRS_HTTPREQUEST_25_001: [The function shall open a connection with the given URL as the endpoint.]
         // Codes_SRS_HTTPREQUEST_25_003: [The function shall use the given HTTPS method (i.e. GET) as the request method.]
         // Codes_SRS_HTTPREQUEST_25_004: [If an IOException occurs in setting up the HTTPS connection, the function shall throw an IOException.]
         this.connection = new HttpConnection(url, method);
-
-        this.connection.setRequestHeader("User-Agent", userAgent);
 
         // Codes_SRS_HTTPREQUEST_25_002: [The function shall write the body to the connection.]
         this.connection.writeOutput(body);

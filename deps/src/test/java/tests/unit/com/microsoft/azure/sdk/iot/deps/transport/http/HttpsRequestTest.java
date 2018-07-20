@@ -46,7 +46,7 @@ public class HttpsRequestTest
             }
         };
         // Act
-        new HttpRequest(mockUrl, httpsMethod, body, "");
+        new HttpRequest(mockUrl, httpsMethod, body);
         // Assert
         new Verifications()
         {
@@ -72,7 +72,7 @@ public class HttpsRequestTest
             }
         };
         // Act
-        new HttpRequest(mockUrl, httpsMethod, body, "");
+        new HttpRequest(mockUrl, httpsMethod, body);
         // Assert
         new Verifications()
         {
@@ -98,7 +98,7 @@ public class HttpsRequestTest
             }
         };
         // Act
-        new HttpRequest(mockUrl, httpsMethod, body, "");
+        new HttpRequest(mockUrl, httpsMethod, body);
         // Assert
         new Verifications()
         {
@@ -126,7 +126,7 @@ public class HttpsRequestTest
             }
         };
         // Act
-        new HttpRequest(mockUrl, httpsMethod, body, "");
+        new HttpRequest(mockUrl, httpsMethod, body);
     }
 
     // Tests_SRS_HTTPSREQUEST_25_005: [The function shall send an HTTPS request as formatted in the constructor.]
@@ -204,7 +204,7 @@ public class HttpsRequestTest
                 result = "http";
             }
         };
-        HttpRequest request = new HttpRequest(mockUrl, expectedMethod, body, "");
+        HttpRequest request = new HttpRequest(mockUrl, expectedMethod, body);
         // Act
         request.send();
     }
@@ -290,7 +290,7 @@ public class HttpsRequestTest
             }
         };
         // Act
-        HttpRequest request = new HttpRequest(mockUrl, expectedMethod, body, "");
+        HttpRequest request = new HttpRequest(mockUrl, expectedMethod, body);
         request.setHeaderField(field0, value0);
         request.setHeaderField(field1, value1);
         request.send();
@@ -371,7 +371,7 @@ public class HttpsRequestTest
             }
         };
         // Act
-        HttpRequest request = new HttpRequest(mockUrl, httpsMethod, expectedBody, "");
+        HttpRequest request = new HttpRequest(mockUrl, httpsMethod, expectedBody);
         request.send();
     }
 
@@ -394,7 +394,7 @@ public class HttpsRequestTest
             }
         };
         // Act
-        HttpRequest request = new HttpRequest(mockUrl, httpsMethod, body, "");
+        HttpRequest request = new HttpRequest(mockUrl, httpsMethod, body);
         HttpResponse response = request.send();
         int testStatus = response.getStatus();
         // Assert
@@ -419,7 +419,7 @@ public class HttpsRequestTest
                 result = responseBody;
             }
         };
-        HttpRequest request = new HttpRequest(mockUrl, httpsMethod, requestBody, "");
+        HttpRequest request = new HttpRequest(mockUrl, httpsMethod, requestBody);
         // Act
         HttpResponse response = request.send();
         byte[] testBody = response.getBody();
@@ -449,7 +449,7 @@ public class HttpsRequestTest
             }
         };
         // Act
-        HttpRequest request = new HttpRequest(mockUrl, httpsMethod, body, "");
+        HttpRequest request = new HttpRequest(mockUrl, httpsMethod, body);
         HttpResponse response = request.send();
         byte[] testError = response.getErrorReason();
         // Assert
@@ -481,7 +481,7 @@ public class HttpsRequestTest
                 result = headerFields;
             }
         };
-        HttpRequest request = new HttpRequest(mockUrl, httpsMethod, body, "");
+        HttpRequest request = new HttpRequest(mockUrl, httpsMethod, body);
         // Act
         HttpResponse response = request.send();
         String testValues = response.getHeaderField(field);
@@ -509,7 +509,7 @@ public class HttpsRequestTest
                 result = badStatus;
             }
         };
-        HttpRequest request = new HttpRequest(mockUrl, httpsMethod, body, "");
+        HttpRequest request = new HttpRequest(mockUrl, httpsMethod, body);
         // Act
         HttpResponse response = request.send();
         int testStatus = response.getStatus();
@@ -542,7 +542,7 @@ public class HttpsRequestTest
                 result = new IOException();
             }
         };
-        HttpRequest request = new HttpRequest(mockUrl, httpsMethod, body, "");
+        HttpRequest request = new HttpRequest(mockUrl, httpsMethod, body);
         // Act
         request.send();
     }
@@ -572,7 +572,7 @@ public class HttpsRequestTest
                 result = headerFields;
             }
         };
-        HttpRequest request = new HttpRequest(mockUrl, httpsMethod, body, "");
+        HttpRequest request = new HttpRequest(mockUrl, httpsMethod, body);
         // Act
         HttpResponse response = request.send();
         String testValues = response.getHeaderField(field);
@@ -596,7 +596,7 @@ public class HttpsRequestTest
                 result = "http";
             }
         };
-        HttpRequest request = new HttpRequest(mockUrl, httpsMethod, body, "");
+        HttpRequest request = new HttpRequest(mockUrl, httpsMethod, body);
         // Act
         request.setHeaderField(field, value);
         // Assert
@@ -624,7 +624,7 @@ public class HttpsRequestTest
                 result = "http";
             }
         };
-        HttpRequest request = new HttpRequest(mockUrl, httpsMethod, body, "");
+        HttpRequest request = new HttpRequest(mockUrl, httpsMethod, body);
         // Act
         request.setReadTimeoutMillis(readTimeout);
         // Assert
