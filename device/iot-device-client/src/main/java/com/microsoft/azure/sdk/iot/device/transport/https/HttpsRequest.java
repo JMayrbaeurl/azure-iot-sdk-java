@@ -66,9 +66,7 @@ public class HttpsRequest
      */
     public HttpsResponse send() throws TransportException
     {
-        HttpsConnection connection;
-
-        connection = new HttpsConnection(url, method);
+        HttpsConnection connection = new HttpsConnection(url, method);
 
         for (String headerKey : headers.keySet())
         {
@@ -80,7 +78,10 @@ public class HttpsRequest
 
         connection.writeOutput(this.body);
 
-        connection.setSSLContext(this.sslContext);
+        if (this.sslContext != null)
+        {
+            connection.setSSLContext(this.sslContext);
+        }
 
         connection.setReadTimeoutMillis(this.connectionTimeout);
 

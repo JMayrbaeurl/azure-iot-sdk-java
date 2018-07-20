@@ -5,6 +5,9 @@
 
 package com.microsoft.azure.sdk.iot.device.hsm;
 
+import com.microsoft.azure.sdk.iot.deps.transport.http.HttpMethod;
+import com.microsoft.azure.sdk.iot.deps.transport.http.HttpRequest;
+import com.microsoft.azure.sdk.iot.deps.transport.http.HttpResponse;
 import com.microsoft.azure.sdk.iot.device.exceptions.TransportException;
 import com.microsoft.azure.sdk.iot.device.hsm.parser.ErrorResponse;
 import com.microsoft.azure.sdk.iot.device.hsm.parser.SignRequest;
@@ -27,6 +30,7 @@ public class HttpsHsmClient
     private String scheme;
 
     private static final String HTTPS_SCHEME = "https";
+    private static final String HTTP_SCHEME = "http";
     private static final String UNIX_SCHEME = "unix";
 
     /**
@@ -94,36 +98,40 @@ public class HttpsHsmClient
 
         byte[] body = signRequest.toJson().getBytes();
 
-        HttpsRequest httpsRequest = new HttpsRequest(new URL(urlBuilder.toString()), HttpsMethod.POST, body, TransportUtils.USER_AGENT_STRING);
-
-        // Codes_SRS_HSMHTTPCLIENT_34_003: [This function shall build an http request with headers ContentType and Accept with value application/json.]
-        httpsRequest.setHeaderField("ContentType", "application/json");
-        httpsRequest.setHeaderField("Accept", "application/json");
-
-        HttpsResponse response = null;
-        if (this.scheme.equalsIgnoreCase(HTTPS_SCHEME))
+        if (scheme.equalsIgnoreCase(UNIX_SCHEME) || scheme.equalsIgnoreCase(HTTPS_SCHEME) || scheme.equalsIgnoreCase(HTTP_SCHEME))
         {
-            response = httpsRequest.send();
-        }
-        else if (this.scheme.equalsIgnoreCase(UNIX_SCHEME))
-        {
-            // Codes_SRS_HSMHTTPCLIENT_34_006: [If the scheme of the provided url is Unix, this function shall send the http request using unix domain sockets.]
-            response = sendHttpRequestUsingUnixSocket(httpsRequest, urlBuilder.toString(), "modules/" + moduleName + "/sign", "apiVersion=" + api_version);
+            HttpsRequest httpsRequest = new HttpsRequest(new URL(urlBuilder.toString()), HttpsMethod.POST, body, TransportUtils.USER_AGENT_STRING);
+
+            // Codes_SRS_HSMHTTPCLIENT_34_003: [This function shall build an http request with headers ContentType and Accept with value application/json.]
+            httpsRequest.setHeaderField("ContentType", "application/json");
+            httpsRequest.setHeaderField("Accept", "application/json");
+
+            HttpsResponse response = null;
+            if (this.scheme.equalsIgnoreCase(HTTPS_SCHEME) || this.scheme.equalsIgnoreCase(HTTP_SCHEME))
+            {
+                response = httpsRequest.send();
+            }
+            else if (this.scheme.equalsIgnoreCase(UNIX_SCHEME))
+            {
+                // Codes_SRS_HSMHTTPCLIENT_34_006: [If the scheme of the provided url is Unix, this function shall send the http request using unix domain sockets.]
+                response = sendHttpRequestUsingUnixSocket(httpsRequest, urlBuilder.toString(), "modules/" + moduleName + "/sign", "apiVersion=" + api_version);
+            }
+
+            int responseCode = response.getStatus();
+            String responseBody = new String(response.getBody());
+            switch (responseCode)
+            {
+                case 200:
+                    // Codes_SRS_HSMHTTPCLIENT_34_004: [If the response from the http call is 200, this function shall return the SignResponse built from the response body json.]
+                    return SignResponse.fromJson(responseBody);
+                default:
+                    // Codes_SRS_HSMHTTPCLIENT_34_005: [If the response from the http call is not 200, this function shall throw an HsmException.]
+                    throw new HsmException("HttpsHsmClient received status code " + responseCode + " from provided uri. Error Message: " + ErrorResponse.fromJson(responseBody).getMessage());
+            }
         }
         else
         {
             throw new UnsupportedOperationException("unrecognized URI scheme. Only HTTPS and UNIX are supported");
-        }
-
-        String responseBody = new String(response.getBody());
-        switch (response.getStatus())
-        {
-            case 200:
-                // Codes_SRS_HSMHTTPCLIENT_34_004: [If the response from the http call is 200, this function shall return the SignResponse built from the response body json.]
-                return SignResponse.fromJson(responseBody);
-            default:
-                // Codes_SRS_HSMHTTPCLIENT_34_005: [If the response from the http call is not 200, this function shall throw an HsmException.]
-                throw new HsmException("HttpsHsmClient received status code " + response.getStatus() + " from provided uri. Error Message: " + ErrorResponse.fromJson(responseBody).getMessage());
         }
     }
 

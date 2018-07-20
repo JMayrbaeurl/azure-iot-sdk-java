@@ -12,6 +12,7 @@ import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.HttpURLConnection;
 import java.net.NoRouteToHostException;
 import java.net.URL;
 import java.net.UnknownHostException;
@@ -37,10 +38,10 @@ import java.util.Map;
 public class HttpsConnection
 {
     /** The underlying HTTPS connection. */
-    private final HttpsURLConnection connection;
+    private final HttpURLConnection connection;
 
     /**
-     * The body. {@link HttpsURLConnection} silently calls connect() when the output
+     * The body. {@link HttpURLConnection} silently calls connect() when the output
      * stream is written to. We buffer the body and defer writing to the output
      * stream until {@link #connect()} is called.
      */
@@ -76,7 +77,7 @@ public class HttpsConnection
         try
         {
             // Codes_SRS_HTTPSCONNECTION_11_001: [The constructor shall open a connection to the given URL.]
-            this.connection = (HttpsURLConnection) url.openConnection();
+            this.connection = (HttpURLConnection) url.openConnection();
             // Codes_SRS_HTTPSCONNECTION_11_021: [The constructor shall set the HTTPS method to the given method.]
             this.connection.setRequestMethod(method.name());
         }
@@ -348,8 +349,15 @@ public class HttpsConnection
             //Codes_SRS_HTTPSCONNECTION_25_025: [The function shall throw IllegalArgumentException if the context is null value.]
             throw new IllegalArgumentException("SSL context cannot be null");
         }
-        //Codes_SRS_HTTPSCONNECTION_25_024: [The function shall set the the SSL context with the given value.]
-        this.connection.setSSLSocketFactory(sslContext.getSocketFactory());
+        if (this.connection instanceof HttpsURLConnection)
+        {
+            //Codes_SRS_HTTPSCONNECTION_25_024: [The function shall set the the SSL context with the given value.]
+            ((HttpsURLConnection)this.connection).setSSLSocketFactory(sslContext.getSocketFactory());
+        }
+        else
+        {
+            throw new UnsupportedOperationException("HTTP connections do not support using ssl socket factory");
+        }
     }
 
     @SuppressWarnings("unused")
