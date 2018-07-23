@@ -83,6 +83,6 @@ public class HttpHsmSignatureProvider implements SignatureProvider
 
         SignResponse response = this.httpClient.sign(this.apiVersion, keyName, signRequest, generationId);
 
-        return Base64.encodeBase64StringLocal(response.getDigest());
+        return response.getDigest();
     }
 }

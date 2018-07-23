@@ -135,7 +135,7 @@ public class HttpHsmSignatureProviderTest
                 mockedSignRequest.setKeyId("primary");
                 mockedSignRequest.setAlgo((Mac) Deencapsulation.getField(signatureProvider, "defaultSignRequestAlgo"));
                 mockedHttpsHsmClient.sign(expectedApiVersion, keyName, mockedSignRequest, expectedGenId);
-                Base64.encodeBase64StringLocal(mockedSignResponse.getDigest());
+                mockedSignResponse.getDigest();
             }
         };
     }
