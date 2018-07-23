@@ -50,7 +50,7 @@ public class ModuleAuthenticationWithHsmTest
 
                 Deencapsulation.newInstance(IotHubSasToken.class,
                         new Class[] {String.class, String.class, String.class, String.class, String.class, long.class},
-                        expectedGatewayHostname, expectedDeviceId, expectedSignature, null, expectedModuleId, expectedTimeToLive);
+                        expectedGatewayHostname, expectedDeviceId, null, expectedSignature, expectedModuleId, expectedTimeToLive);
                 result = mockedIotHubSasToken;
 
                 System.currentTimeMillis();

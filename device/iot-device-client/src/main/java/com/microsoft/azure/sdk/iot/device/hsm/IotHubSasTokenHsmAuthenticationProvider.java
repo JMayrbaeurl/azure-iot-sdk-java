@@ -82,17 +82,7 @@ public class IotHubSasTokenHsmAuthenticationProvider extends IotHubSasTokenWithR
 
             if (gatewayHostName != null && !gatewayHostName.isEmpty())
             {
-                try
-                {
-                    System.out.println("Checking if need to base64 encode...");
-                    // Codes_SRS_MODULEAUTHENTICATIONWITHHSM_34_003: [If the gatewayHostname is not null or empty, this function shall construct the sas token using the gateway hostname instead of the hostname.]
-                    return new IotHubSasToken(gatewayHostName, deviceId, signature, null, moduleId, expiresOn);
-                }
-                catch (Exception e)
-                {
-                    System.out.println("Still needed to base64 encode...");
-                    return new IotHubSasToken(gatewayHostName, deviceId, Base64.encodeBase64StringLocal(signature.getBytes()), null , moduleId, expiresOn);
-                }
+                return new IotHubSasToken(gatewayHostName, deviceId, null, IotHubSasToken.buildSharedAccessToken(audience, Base64.encodeBase64StringLocal(signature.getBytes()), expiresOn), moduleId, expiresOn);
             }
             else
             {

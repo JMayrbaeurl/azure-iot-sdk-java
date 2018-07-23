@@ -109,6 +109,20 @@ public final class IotHubSasToken
         }
     }
 
+    public static String buildSharedAccessToken(String audience, String signature, long expiry)
+    {
+        // Example returned string:
+        // SharedAccessSignature sr=ENCODED(dh://myiothub.azure-devices.net/a/b/c?myvalue1=a)&sig=<Signature>&se=<ExpiresOnValue>[&skn=<KeyName>]
+        return String.format("%s %s=%s&%s=%s&%s=%d",
+                SharedAccessSignature,
+                ResourceURIFieldKey,
+                audience,
+                SignatureFieldKey,
+                signature,
+                ExpiryTimeFieldKey,
+                expiry);
+    }
+
     /**
      * Returns the string representation of the SAS token.
      *
