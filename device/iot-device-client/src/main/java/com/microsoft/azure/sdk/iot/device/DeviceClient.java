@@ -9,7 +9,6 @@ import com.microsoft.azure.sdk.iot.device.fileupload.FileUpload;
 import com.microsoft.azure.sdk.iot.device.transport.amqps.IoTHubConnectionType;
 import com.microsoft.azure.sdk.iot.provisioning.security.SecurityProvider;
 
-import java.io.Closeable;
 import java.io.IOError;
 import java.io.IOException;
 import java.io.InputStream;
@@ -35,7 +34,7 @@ import java.nio.charset.StandardCharsets;
  * </p>
  * The client supports HTTPS 1.1 and AMQPS 1.0 transports.
  */
-public final class DeviceClient extends InternalClient implements Closeable
+public final class DeviceClient extends InternalClient implements DeviceMethods
 {
     /**
      * @deprecated as of release 1.2.27 this value is deprecated and will not be replaced.

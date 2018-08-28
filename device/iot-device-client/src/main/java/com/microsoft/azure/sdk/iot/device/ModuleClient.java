@@ -31,7 +31,7 @@ import java.util.Map;
  * Public API for communicating from Edge Modules. A ModuleClient can be used to send messages from an Edge module to an EdgeHub or an IotHub.
  * It can also send twin updates and listen for method calls from an EdgeHub or IotHub as well
  */
-public class ModuleClient extends InternalClient
+public class ModuleClient extends InternalClient implements ModuleMethods
 {
     private static final String DEFAULT_API_VERSION = "2018-06-28";
 
